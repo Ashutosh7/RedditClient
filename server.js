@@ -22,9 +22,14 @@ router.get('/', function(req, res) {
 		});
 
 router.get('/r/:subRedditName/:subRedditType', function(req, resToClient) {
-		getSubreddit.getSubJSON(req.params.subRedditName, req.params.subRedditType, req.query.after, resToClient)
-		
+		getSubreddit.getSubJSON(req.params.subRedditName, req.params.subRedditType, req.query.after, resToClient)	
 		});
+
+router.get('/r/:subRedditType', function(req, resToClient) {
+		getSubreddit.getSubJSON("", req.params.subRedditType, req.query.after, resToClient)	
+		});
+
+
 
 // REGISTER ROUTES -------------------------------
 // all the routes will be prefixed with /api
