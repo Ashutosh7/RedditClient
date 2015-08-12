@@ -5,7 +5,7 @@
 var express    = require('express');
 var app        = express();
 var bodyParser = require('body-parser');
-var getSubreddit = require('./getSubreddit');
+var sendReqtoClient = require('./sendReqtoClient');
 // configure app to use bodyParser()
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -18,15 +18,23 @@ var router = express.Router();
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
-		res.json({ message: 'welcome to the api!' });   
+		sendReqtoClient.sendFiltJSON("", "hot", req.query.after, resToClient, "frontpage")	
+		});
+
+router.get('/reddits', function(req,resToClient){
+		sendReqtoClient.sendFiltJSON("", "", req.query.after,resToClient, "getsublist");
 		});
 
 router.get('/r/:subRedditName/:subRedditType', function(req, resToClient) {
-		getSubreddit.getSubJSON(req.params.subRedditName, req.params.subRedditType, req.query.after, resToClient)	
+		sendReqtoClient.sendFiltJSON(req.params.subRedditName, req.params.subRedditType, req.query.after, resToClient, "getsubreddit")	
 		});
 
-router.get('/r/:subRedditType', function(req, resToClient) {
-		getSubreddit.getSubJSON("", req.params.subRedditType, req.query.after, resToClient)	
+router.get('/r/:subRedditName', function(req, resToClient) {
+		sendReqtoClient.sendFiltJSON(req.params.subRedditName, "hot" , req.query.after, resToClient, "getsubreddit")	
+		});
+
+router.get('/:subRedditType', function(req, resToClient) {
+		sendReqtoClient.sendFiltJSON("", req.params.subRedditType, req.query.after, resToClient, "frontpage")	
 		});
 
 
